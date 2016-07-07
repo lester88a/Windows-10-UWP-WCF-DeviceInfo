@@ -1,0 +1,39 @@
+﻿<Page
+    x:Class="App2.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:App2"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel Margin="20,50,0,20">
+            <Button  Content="GetData" x:Name="GetButton" Margin="0,0,10,0" Click="GetButton_Click"/>
+        </StackPanel>
+
+        <StackPanel>
+            <!--<WebView VerticalAlignment="Center" HorizontalAlignment="Center" Width="500" Height="500" Source="http://10.1.200.200"/>-->
+        </StackPanel>
+        <StackPanel>
+            <TextBlock Text="DEMO" Name="TextBlock" Margin="20,100,0,0"/>
+        </StackPanel>
+        <StackPanel Margin="20,100,0,0">
+            <ListView x:Name="lvDataTemplates" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Margin="0,5,0,0"> 
+                                    <Run Text="Manufacturer: "/> 
+                                    <Run Text="{Binding Manufacturer}" />
+                            </TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+           
+        </StackPanel>
+        
+
+    </Grid>
+</Page>
