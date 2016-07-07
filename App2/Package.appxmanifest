@@ -1,49 +1,50 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-
-<Package
-  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
-  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
-  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
-  IgnorableNamespaces="uap mp">
-
-  <Identity
-    Name="App2"
-    Publisher="CN=lester.xu"
-    Version="1.0.0.0" />
-
-  <mp:PhoneIdentity PhoneProductId="d9ae7741-1f45-4231-b915-823d1dbbe950" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
-
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" 
+         xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" 
+         xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" 
+         xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10"
+         xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+         IgnorableNamespaces="uap mp iot">
+  <Identity Name="App2" Publisher="CN=lester.xu" Version="1.0.0.0" />
+  <mp:PhoneIdentity PhoneProductId="d9ae7741-1f45-4231-b915-823d1dbbe950" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>App2</DisplayName>
     <PublisherDisplayName>lester.xu</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
-
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
   </Dependencies>
-
   <Resources>
-    <Resource Language="x-generate"/>
+    <Resource Language="x-generate" />
   </Resources>
-
   <Applications>
-    <Application Id="App"
-      Executable="$targetnametoken$.exe"
-      EntryPoint="App2.App">
-      <uap:VisualElements
-        DisplayName="App2"
-        Square150x150Logo="Assets\Square150x150Logo.png"
-        Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="App2"
-        BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="App2.App">
+      <uap:VisualElements DisplayName="App2" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="App2" BackgroundColor="transparent">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png">
+        </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
     </Application>
   </Applications>
-
   <Capabilities>
-    <Capability Name="internetClient" />
+    <Capability Name="internetClient"/>
+    <Capability Name="internetClientServer"/>
+    <Capability Name="privateNetworkClientServer"/>
+    <Capability Name="allJoyn"/>
+    <iot:Capability Name="systemManagement" />
+    <uap:Capability Name="documentsLibrary"/>
+    <uap:Capability Name="picturesLibrary"/>
+    <uap:Capability Name="videosLibrary"/>
+    <uap:Capability Name="musicLibrary"/>
+    <uap:Capability Name="enterpriseAuthentication"/>
+    <uap:Capability Name="sharedUserCertificates"/>
+    <uap:Capability Name="userAccountInformation"/>
+    <uap:Capability Name="removableStorage"/>
+    <uap:Capability Name="appointments"/>
+    <uap:Capability Name="contacts"/>
+    <uap:Capability Name="phoneCall"/>
+    <uap:Capability Name="blockedChatMessages"/>
+    <uap:Capability Name="objects3D"/>
   </Capabilities>
 </Package>

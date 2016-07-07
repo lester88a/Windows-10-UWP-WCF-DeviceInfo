@@ -8,9 +8,11 @@ using System.Xml.Linq;
 using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
 using Windows.Networking;
 using Windows.Networking.Connectivity;
 using Windows.Security.ExchangeActiveSyncProvisioning;
+using Windows.System;
 using Windows.System.Profile;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -33,7 +35,7 @@ namespace App2
         public MainPage()
         {
             this.InitializeComponent();
-
+            
             //get ip address
             foreach (HostName localHostName in NetworkInformation.GetHostNames())
             {
@@ -75,7 +77,12 @@ namespace App2
             TextBlock.Text += "\nSystemHardwareVersion: " + eas.SystemHardwareVersion;
             TextBlock.Text += "\nSystemManufacturer: " + eas.SystemManufacturer;
             TextBlock.Text += "\nSystemProductName: " + eas.SystemProductName;
+            
+
+
+
         }
+        
         private string GetLocalIp()
         {
             var icp = NetworkInformation.GetInternetConnectionProfile();
@@ -93,39 +100,68 @@ namespace App2
         }
         private async void GetButton_Click(object sender, RoutedEventArgs e)
         {
-            // Create proxy instance 
-            AccessSQLService.ServiceClient serviceClient = new AccessSQLService.ServiceClient();
-
-            // async call WCF method to get returned data 
-            AccessSQLService.querySqlRequest request = new AccessSQLService.querySqlRequest();
-            AccessSQLService.querySqlResponse ds = await serviceClient.querySqlAsync(request);
-
-            if (ds.queryParam)
+            // get the package architecure
+            Package package = Package.Current;
+            if (!package.Id.Architecture.ToString().Contains("Arm"))
             {
-                // Convert Xml to List<Article> 
-                XDocument xdoc = XDocument.Parse(ds.querySqlResult.Nodes[1].ToString(), LoadOptions.None);
-                var data = from query in xdoc.Descendants("Table")
-                           select new Article
-                           {
-                               Manufacturer = query.Element("Manufacturer").Value,
-                               //Text = query.Element("Text").Value
-                           };
-
-                // Set ItemsSource of ListView control 
-                lvDataTemplates.ItemsSource = data;
+                await GetDateFromServer();
             }
-            else
-            {
-                //Debug.WriteLine("Error occurs. Please make sure the database has been attached to SQL Server!");
-                var dialog = new MessageDialog("Your message here");
-                await dialog.ShowAsync();
-            }
-
-
-
             
 
+            if (NetAddress.Text != "" && NetAddress.Text != "http://" && NetAddress.Text != "https://")
+            {
+                BroswerWebView.Source = new Uri(NetAddress.Text);
+            }
 
+
+
+
+
+        }
+
+        private async System.Threading.Tasks.Task GetDateFromServer()
+        {
+            try
+            {
+                // Create proxy instance 
+                AccessSQLService.ServiceClient serviceClient = new AccessSQLService.ServiceClient();
+
+                // async call WCF method to get returned data 
+                AccessSQLService.querySqlRequest request = new AccessSQLService.querySqlRequest();
+                AccessSQLService.querySqlResponse ds = await serviceClient.querySqlAsync(request);
+
+                if (ds.queryParam)
+                {
+                    // Convert Xml to List<Article> 
+                    XDocument xdoc = XDocument.Parse(ds.querySqlResult.Nodes[1].ToString(), LoadOptions.None);
+                    var data = from query in xdoc.Descendants("Table")
+                               select new Article
+                               {
+                                   Manufacturer = query.Element("Manufacturer").Value,
+                                   //Text = query.Element("Text").Value
+                               };
+
+                    // Set ItemsSource of ListView control 
+                    lvDataTemplates.ItemsSource = data;
+                }
+                else
+                {
+                    //Debug.WriteLine("Error occurs. Please make sure the database has been attached to SQL Server!");
+                    var dialog = new MessageDialog("Error");
+                    await dialog.ShowAsync();
+                }
+            }
+            catch (Exception e)
+            {
+                var dialog = new MessageDialog("Error:\n" + e);
+                await dialog.ShowAsync();
+            }
+            
+        }
+
+        private void ShutdownButton_Click(object sender, RoutedEventArgs e)
+        {
+            ShutdownManager.BeginShutdown(ShutdownKind.Shutdown, new TimeSpan(0));
         }
     }
 }

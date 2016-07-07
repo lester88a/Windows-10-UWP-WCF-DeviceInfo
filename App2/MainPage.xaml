@@ -6,34 +6,45 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Margin="20,50,0,20" Orientation="Horizontal">
+                <Button  Content="GetData" x:Name="GetButton" Margin="0,0,10,0" Click="GetButton_Click"/>
+                <Button Content="Shutdown IoT" x:Name="ShutdownButton" Click="ShutdownButton_Click"/>
+            </StackPanel>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel Margin="20,50,0,20">
-            <Button  Content="GetData" x:Name="GetButton" Margin="0,0,10,0" Click="GetButton_Click"/>
-        </StackPanel>
-
-        <StackPanel>
-            <!--<WebView VerticalAlignment="Center" HorizontalAlignment="Center" Width="500" Height="500" Source="http://10.1.200.200"/>-->
-        </StackPanel>
-        <StackPanel>
-            <TextBlock Text="DEMO" Name="TextBlock" Margin="20,100,0,0"/>
-        </StackPanel>
-        <StackPanel Margin="20,100,0,0">
-            <ListView x:Name="lvDataTemplates" >
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <TextBlock Margin="0,5,0,0"> 
+            <StackPanel Grid.Row="1">
+                <TextBox Name="NetAddress" Text="http://"/>
+                <WebView Name="BroswerWebView" VerticalAlignment="Center" HorizontalAlignment="Center" Width="500" Height="500" Source="http://10.1.200.200"/>
+            </StackPanel>
+            <StackPanel Grid.Row="3">
+                <TextBlock Text="DEMO" Name="TextBlock" Margin="20,80,0,0"/>
+            </StackPanel>
+            <StackPanel Margin="20,100,0,0" Grid.Row="2">
+                <ListView x:Name="lvDataTemplates" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Margin="0,5,0,0"> 
                                     <Run Text="Manufacturer: "/> 
                                     <Run Text="{Binding Manufacturer}" />
-                            </TextBlock>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-           
-        </StackPanel>
-        
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
 
-    </Grid>
+            </StackPanel>
+
+
+        </Grid>
+    </ScrollViewer>
+    
 </Page>
